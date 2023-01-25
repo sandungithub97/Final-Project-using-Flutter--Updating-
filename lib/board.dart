@@ -1,63 +1,65 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:login_system/auth_controller.dart';
+import 'package:login_system/board.dart';
 
-class DashBoard extends StatelessWidget {
-  const DashBoard({Key? key}) : super(key: key);
+class DashBoard extends StatefulWidget {
+
+
+
 
   @override
-  Widget build(BuildContext context) {
-    double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Container(
-            width: w,
-            height: h*0.3,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                        "img/key-visual.png"
-                    ),
-                    fit: BoxFit.cover
-                )
-            ),
-          ),
-          
-          GestureDetector(
-            onTap: (){
-              AuthController.instance.logout();
-            },
-            child: Container(
-              width: w*0.4,
-              height: h*0.07,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  image: DecorationImage(
-                      image: AssetImage(
-                          "img/gradient.jpg"
-                      ),
-                      fit: BoxFit.cover
-                  )
-              ),
-              child: Center(
-                child: Text(
-                  "Sign out",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Text("email.com")
-        ],
-      ),
-    );
-  }
+  State createState()  => _State();
 }
+
+class _State extends State<DashBoard> {
+  int index=0;
+  final screens=[
+    Center(child: Text("1sst"),),
+    Center(child: Text("2nd"),),
+    Center(child: Text("3rd"),),
+    Center(child: Text("4th"),),
+  ];
+  @override
+  Widget build(BuildContext context) => Scaffold (
+    body: screens[index],
+      bottomNavigationBar:NavigationBarTheme(
+          data: NavigationBarThemeData(
+            indicatorColor: Colors.blue.shade100,
+            labelTextStyle: MaterialStateProperty.all(
+              TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+          ),
+        child: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          height: 60,
+          backgroundColor: Colors.blueAccent.shade200,
+          selectedIndex: index,
+          onDestinationSelected: (index) =>
+            setState(() =>this.index=index),
+          destinations: [
+            NavigationDestination(
+              icon: Icon(Icons.supervised_user_circle),
+                selectedIcon: Icon(Icons.supervised_user_circle_outlined),
+                label: "Donator"),
+
+            NavigationDestination(
+                icon: Icon(Icons.verified_user),
+                selectedIcon: Icon(Icons.verified_user_outlined),
+                label: "Receiver"),
+
+            NavigationDestination(
+                icon: Icon(Icons.volunteer_activism),
+                selectedIcon: Icon(Icons.volunteer_activism_outlined),
+                label: "Volunteer"),
+
+            NavigationDestination(
+                icon: Icon(Icons.integration_instructions),
+                selectedIcon: Icon(Icons.integration_instructions_outlined),
+                label: "AbouUs"),
+          ],
+
+        ),
+      ),
+  );
+}
+
+
